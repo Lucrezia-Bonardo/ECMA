@@ -68,7 +68,7 @@ mean(weight)
 mean(y$weight_g)
 # median
 median(weight)
-hist(weight,prob=T,ylim=c(0,0.05)) # prob=T for relative frequencies (density)
+hist(weight,prob=T,ylim=c(0,0.05)) # prob=T for relative frequencies, probability, number over total (density),ylim -> limits of axys y since values are small, the area of the graph is 1 not sum of frequencies we read 
 lines(density(rnorm(1000000,mean(weight),sd(weight))),col="red")
 segments(mean(weight),0,mean(weight),0.047,col="blue")
 segments(median(weight),0,median(weight),0.047,col="green")
@@ -81,33 +81,33 @@ segments(median(weight),0,median(weight),0.047,col="green")
 getmode <- function(x) {
   uniqv <- unique(x)
   uniqv[which.max(tabulate(match(x, uniqv)))]
-}
+} #same function as mode cuz it asks which value is most frequent in the weight vector
 getmode(weight)
 
 
 ## ---- Dispersion measures ----
 
 ## range
-range(weight)
+range(weight) #this is min and max
 
 ## quantile
 quantile(weight) # in R, quartiles are the default for the quantile function
-median(weight)
-?boxplot # check the range argument and its default value
+median(weight) #same as 50% quantile
+?boxplot # check the range argument and its default value, sends me to help
 boxplot(weight, range=0)
 boxplot(na.omit(y$footlength_mm))
-boxplot(na.omit(y$footlength_mm), range=0)
+boxplot(na.omit(y$footlength_mm), range=0) #includes outliers in the graph range (shape is same, but dotted lines go further)
 
-# summary
+# summary, lots of info in the vector (min-max,mean-median,1st and 3rd quartile)
 summary(weight)
 
-## variance
+## variance, scarto quadratico medio rispetto alla media (ogni dato -media, elevato alla seconda e poi sommati)
 var(weight)
 
-## standard deviation
+## standard deviation, varianza ma alla radice quadra (i dati sono per lo più tra media +/- deviazione standard)
 sd(weight)
 
-# why we square the differences?
+# IGNORE why we square the differences?
 m <- mean(weight)
 w <- c(m+4,m+4,m-4,m-4)
 op <- par(mfrow=c(1,2))
@@ -140,37 +140,37 @@ var(w)
 var(w1)
 sd(w)
 sd(w1)
-# the results are slightly different because the R functions adopt a correction for finite samples
+# STOP IGNORING the results are slightly different because the R functions adopt a correction for finite samples
 
 ## standard error
-sd(weight)/sqrt(length(weight))
-sd(weight)/sqrt(119)
+sd(weight)/sqrt(length(weight)) #length(weight) counts number of data in vector for you
+sd(weight)/sqrt(119) #119 is number of data in the vector, but you have to count it yourself
 
 
 ## ---- Outliers ----
 
 # boxplot
-op <- par(mfrow=c(1,2))
+op <- par(mfrow=c(1,2)) #default is one graph, this says 1 row but 2 colums of graphs, so two graphs visualised together
 boxplot(y$footlength_mm, col = "lightgray", ylim=c(10,30))
 # boxplot(log(y$footlength_mm), col = "lightgray")
-mtext("80", line=-1)
-points(x=29)
+mtext("80", line=-1) #because of the limit this data was eliminated, adding it manually
+points(x=29) #add point in chart manually for aesthetic
 
 # points()
 
 
 # Cleveland plot/dotchart
-dotchart(y$footlength_mm)
-par(op)
+dotchart(y$footlength_mm) #highlights outliers
+par(op) #get back to only one graph
 par(mfrow=c(1,1))
 # identify the outlier
-plot(x=y$footlength_mm, y=y$capture_id)
-identify(x=y$footlength_mm, y=y$capture_id)
+plot(x=y$footlength_mm, y=y$capture_id) #grafico personalizzato, plot is base graph function
+identify(x=y$footlength_mm, y=y$capture_id) #interactive, you can go press on points of the graph and R tells you their position in the vector (press esc to stop interactive mode)
 # press Esc to stop the identify stuff
-y[102,]
+y[102,] #read this row (adding row, blank is saying no column, just the row)
 
 y$weight_g
-(y$weight_g)[y$weight_g > 30]
+(y$weight_g)[y$weight_g > 30] #seleziona sotto insieme, quadre sono selezione, ma possono avere un comando
 
 
 ## ---- Handling data in a data frame - common operations ----
@@ -179,36 +179,39 @@ y$weight_g
 y[1,] # one row (the first one)
 y[1:10,] # first ten rows
 y[5:10,] # from 5th to 10th row
-y["29",] # by row name, useful if we removed some rows from the dataset
-y[c("29","45"),] # by row name, more than a row
+y["29",] # by row name, useful if we removed some rows from the dataset, cuz even if by counting it is not the 29th anymore, it is still called that
+y[c("29","45"),] # by row name, more than a row, c is a base function (concatena, just shows them side by side)
 
 y[,1] # one column (the first one)
 y[,1:10] # first ten columns
 y[,5:10] # from 5th to 10th column
 y[,"chip"] # by column name
-y[,c("chip","trap_id")] # by column name, more than a column
+y[,c("chip","trap_id")] # by column name, more than a column, 
+
+y[1:5,c("chip","trap_id")] #combines reading columns and rows
 
 # selecting subsets of data, according to their values
 library(dplyr)
-library(tidyverse)
-filter(y, trap_id > 43)
+library(tidyverse) #this has a lot more stuff than what we mainly need
+filter(y, trap_id > 43) #select in your columns just certain rows BUt by value and not position
 # or
-y %>% filter(trap_id > 43)
-filter(y, trap_id > 43 & occasion < 20)
-filter(y, trap_id < 5 | trap_id > 65)
-arrange(y, trap_id)
+y %>% # %>% can be typed as ctrl shift M, %>% says to get data from dataframe y and you can use it for more than just one command so you don't have to always specify it IN the ohter commands
+  filter(trap_id > 43) 
+filter(y, trap_id > 43 & occasion < 20) #add columns, & is "and"
+filter(y, trap_id < 5 | trap_id > 65) #add criteria to same column, | is "or"
+arrange(y, trap_id) #rows are now rearranged so that trap id is in ordine crescente
 
 # multiple operations
 y[,c("chip","trap_id")] %>% filter(trap_id > 65) %>% arrange(trap_id)
-select(y, chip, trap_id)
+select(y, chip, trap_id) #extracts them rows and columns in said dataframe
 y %>% 
-  select(chip, trap_id) %>% 
+  select(chip, trap_id) %>% #gotta repeat pipe %>% to tell R to keep it up
   filter(trap_id > 65) %>% 
-  arrange(trap_id)
+  arrange(trap_id) # now everything is done in one click of the run button
 
 # summarizing data within groups
 names(y)
 y$age
-y %>% group_by(age) %>% summarise(mean.w = mean(na.omit(weight_g)))
+y %>% group_by(age) %>% summarise(mean.w = mean(na.omit(weight_g))) #so basically I get mean of weights for each age group, like mean for A and mean for G, summarise needs to be there to work so R knows to create a little tabella with a column named mean.w where the new info goes, "crea tabella di sintesi con questo titolo nella clonna in cui devi eseguire queste funzioni", WRITE IT
 y$sex
-y %>% group_by(age, sex) %>% summarise(mean.w = mean(na.omit(weight_g)))
+y %>% group_by(age, sex) %>% summarise(mean.w = mean(na.omit(weight_g))) #you can add criteria to the groups, this combines them both
