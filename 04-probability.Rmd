@@ -11,9 +11,9 @@ output:
 # Understanding probability
 
 Let's roll a die...
-
+This is a chunk:
 ```{r}
-sample(x = 1:6, size = 5, replace = FALSE)
+sample(x = 1:6, size = 5, replace = FALSE) #replace false means you can get the same value ONE time only
 sample(x = 1:6, size = 20, replace = TRUE)
 sample(x = 1:6, size = 20, replace = TRUE) # you get different numbers
 sample(x = 1:6, size = 20, replace = TRUE) # again
@@ -22,9 +22,9 @@ sample(x = 1:6, size = 20, replace = TRUE) # again
 How often do you get a 6?
 
 ```{r}
-RollDie <- function(n) sample(1:6, n, replace = TRUE)
+RollDie <- function(n) sample(1:6, n, replace = TRUE) #makes rolldie a function
 d1 <- RollDie(n = 50)
-sum(d1 == 6)
+sum(d1 == 6) #how many times does six show up?
 sum(d1 == 6)/50
 ```
 
@@ -204,12 +204,12 @@ y <- na.omit(y[,c("age", "sex")])
 The marginal probability of capturing an adult snow vole is:
 
 ```{r}
-library(dplyr)
+library(dplyr)#n() just counts the events (in this case it counts the amounts f captures)
 
 age.marginal.df <- 
   y %>% 
   group_by(age) %>%
-  summarise(n = n()) %>%
+  summarise(n = n()) %>% 
   ungroup() %>%
   mutate(prop = n/sum(n))
 age.marginal.df
