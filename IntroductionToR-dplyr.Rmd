@@ -24,17 +24,21 @@ I provided you a dataset called *captures.csv*. The data provide information on 
 
 ```{r}
 # Read captures.csv (name it 'captures')
-
+captures <- read.csv("data/captures.csv",sep=";")
+captures
 
 # Check the class of captures
 ?class
+class(captures)
 
 # Check the dimensions of captures
 ?dim()
+dim(captures)
+
 
 # View the column names of captures
 ?names()
-
+names(captures)
 ```
 
 
@@ -52,10 +56,10 @@ You can use the *summary()* command to get a better feel for how your data are d
 
 ```{r}
 # Check the structure of captures
-
+str(captures)
 
 # View a summary of captures
-
+summary(captures)
 
 ```
 
@@ -84,25 +88,25 @@ For the moment, we will use the functions *hist()* and *plot()* to produce an hi
 
 ```{r}
 # Print captures to the console
-
+captures
 
 # View the first 6 rows
-
+head(captures)
 
 # View the first 15 rows
-
+head(captures,15)
 
 # View the last 6 rows
-
+tail(captures)
 
 # View the last 10 rows
-
+tail(captures,10)
 
 # Produce an histogram of weight
-
+hist(captures$weight_g)
 
 # Plot the capture ID no. towards the DOY
-
+plot(x=captures$DOY, y=captures$capture_id)
 
 
 ```
@@ -117,6 +121,7 @@ For data manipulation, we can use function from the *base* package, but here we 
 ```{r}
 # install.packages("dplyr") # run this line only if the package is not yet installed
 library(dplyr) # load the package
+library(tidyverse)
 ```
 
 
@@ -131,6 +136,8 @@ log(captures$weight_g)
 # Divide weight by the foot length and save the new variable as wfratio
 wfratio <- captures$weight_g/captures$footlength_mm
 captures$weight_g/captures$footlength_mm -> wfratio
+
+?cbind
 
 # add the column wfratio to the captures data frame, creating a new data frame called captures.new
 captures.new <- cbind(captures, wfratio) # using R base function `cbind`
@@ -153,7 +160,10 @@ head(captures.new)
 
 ```{r}
 # DO IT ON YOUR OWN - ADD ANOTHER VARIABLE TO THE DATA FRAME, E.G. YEAR + 1
-
+captures %>% 
+  mutate(wrongyear=year+1)->captures.new
+head(captures.new)
+rm(captures.new)
 ```
 
 
@@ -164,11 +174,11 @@ It is often useful to subset or remove observations based on some condition.
 ```{r}
 ?filter 
 
-# filter data selecting only weights < 25
+# filter data selecting only weights = 25, gotta add ==
 filter(captures, weight_g == 25)
 
 # filter data selecting only weights < 25
-filter(captures, weight_g < 25)
+filter(captures, weight_g< 25)
 
 # filter data selecting only weights < 25 or > 40
 filter(captures, weight_g < 25 | weight_g > 40)
@@ -180,17 +190,19 @@ filter(captures, footlength_mm > 18 & weight_g > 40)
 Do the same using the pipe operator (complete the exercise on the basis of the first example):
 
 ```{r}
-# filter data selecting only weights < 25
+# filter data selecting only weights = 25
 captures %>% 
   filter(weight_g == 25)
 
 # filter data selecting only weights < 25
+filter(captures, weight_g<25)
 
 
 # filter data selecting only weights < 25 or > 40
-
+filter(captures, weight_g<25 | weight_g>40)
 
 # filter data selecting only weights > 40 and foot length > 18
+filter(captures, weight_g>40 & footlength_mm>18)
 
 ```
 
@@ -198,10 +210,10 @@ captures %>%
 
 ```{r}
 # DO IT ON YOUR OWN - SELECT ONLY CAPTURES RECORDED AFTER DOY 210
-
+filter(captures, DOY>210)
 
 # SELECT ONLY CAPTURES RECORDED IN JULY
-
+filter(captures, month==7)
 ```
 
 
@@ -248,7 +260,9 @@ captures %>%
 
 ```{r}
 # DO IT ON YOUR OWN - CALCULATE THE MEAN TAKING INTO ACCOUNT THE AGE CLASS
-
+captures %>% 
+  group_by(age) %>% 
+  summarise(mean.w = (mean(na.omit(weight_g))))
 ```
 
 What if we want to take into account both sex and age?
@@ -311,7 +325,8 @@ captures %>%
 
 ```{r}
 # DO IT ON YOUR OWN - ARRANGE THE DATA FRAME ACCORDING TO FOOT LEGTH, BOTH IN ASCENDING AND DESCENDING ORDER
-
+captures %>% 
+  arrange(desc(footlength_mm))
 
 ```
 
@@ -320,7 +335,9 @@ See *?arrange* to order taking into account grouping (see example at the bottom 
 ```{r}
 # DO IT ON YOUR OWN
 ?arrange
-
+captures %>% 
+  group_by(age) %>% 
+  arrange(weight_g, .by_group =TRUE)
 
 ```
 
