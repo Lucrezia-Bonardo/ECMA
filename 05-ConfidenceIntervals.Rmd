@@ -1,8 +1,8 @@
 ---
 title: "How to calculate confidence intervals"
 output:
-  word_document: default
   html_notebook: default
+  word_document: default
 ---
 
 Consider our snow vole case study... We will calculate the confidence intervals for the mean of the weight of the individuals, for the foot length, and for different groups. 
@@ -40,6 +40,10 @@ dati2 <- na.omit(dati)
 group.CI(weight_g ~ sex,
          data= dati2,
          ci=0.95)
+```
+
+
+```{r}
 intervalli <- group.CI(weight_g ~ sex,
          data= dati2,
          ci=0.95)
@@ -60,6 +64,26 @@ Do it on your own:
 * plot the confidence intervals for the mean weights, grouped for age
 * repeat for the footlength
 
+Footlegnth CI:
+
+```{r}
+CI(na.omit(dati$footlength_mm), ci=0.95)
+CI(dati2$footlength_mm, ci=0.95)
+
+names(dati2)
+variablile <- dati2$footlength_mm
+
+intervalli <- group.CI(variablile ~ sex,
+         data= dati2,
+         ci=0.95)
+intervalli
+
+ggplot(intervalli, aes(x=sex, y=variablile.mean, colour=sex)) +
+    geom_errorbar(aes(ymin=variablile.lower, ymax=variablile.upper), width=.1) +
+    geom_line() +
+    geom_point()
+```
+
 
 ```{r}
 as.data.frame(CI(na.omit(dati$weight_g), ci=0.95)) -> CImean
@@ -72,8 +96,18 @@ CImean
 
 We first need to apply the bootstrap to our data. For this purpose, we use the function `boot` in the `boot` package:
 
+(Non c'è una funzione group per boot quindi bisogna separare i dati manualmente con filter-tidiyverse)
+
 ```{r}
-boot.data <- boot(dati2$weight_g,
+library(tidyverse)
+dati2 %>% 
+  filter(sex == "F") -> datiF
+dati2 %>% 
+  filter(sex == "M") -> datiM
+
+dataset<-datiF
+
+boot.data <- boot(dataset$weight_g,
                   function(x,i) mean(x[i]), 
                   R=10000)
 ```
