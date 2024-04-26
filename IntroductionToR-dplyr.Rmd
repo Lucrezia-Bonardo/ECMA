@@ -246,6 +246,7 @@ captures %>%
 ```
 
 Please note: `filter()` and `select()` are the `dplyr` alternative to the `subset()` base function, and they are easier to use!
+could add dplyr::select to specify to go get itfrom dplyr package in case it does not work.
 
 ## Aggregate and produce grouped summaries
 
