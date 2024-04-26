@@ -128,7 +128,7 @@ length(na.omit(ind.w$individual.weight))
 
 # Two-sample t-test
 
-We must met 5 assumptions:
+We must meet 5 assumptions:
 
 * data are continuous
 * data are normally distributed
@@ -151,6 +151,8 @@ ind.w %>%
 # We can see the difference in weight that we observe between males and females
 w.f <- (subset(ind.w, sex=="F"))$individual.weight
 w.m <- (subset(ind.w, sex=="M"))$individual.weight
+w.f
+w.m
 ```
 
 
