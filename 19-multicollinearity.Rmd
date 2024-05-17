@@ -14,6 +14,7 @@ output:
 ```{r}
 library(car)
 library(dplyr)
+library(ggplot2)
 library(ggcorrplot)
 ```
 
@@ -59,6 +60,7 @@ We select the predictor variables:
 ```{r}
 pred <- dplyr::select(Boston, crim:lstat)
 names(pred)
+pred
 ```
 
 Now, we can compute a correlation matrix:
@@ -89,7 +91,7 @@ ggcorrplot(cor.matrix, method = "circle", lab=TRUE)
 We set a threshold to identify relevant correlations:
 
 ```{r}
-p.mat <- (abs(cor.matrix) > 0.7)
+p.mat <- (abs(cor.matrix) > 0.7) #assigns true to those who be like that
 p.mat
 ```
 
@@ -100,7 +102,7 @@ p.mat
 ggcorrplot(cor.matrix,
   hc.order = TRUE, method = "circle",
   type = "lower", p.mat = p.mat
-)
+) #plotta solo il triangolo lower della matrice cuz tbh è simmetrica secondo la diagonale, the x is on correlazioni>0.7 (che corrispondono a p.mat true ig?)
 ```
 
 When faced to multicollinearity, the concerned variables should be removed, since the presence of multicollinearity implies that the information that this variable provides about the response is redundant in the presence of the other variables (James et al. 2014,P. Bruce and Bruce (2017)).
@@ -115,7 +117,7 @@ The following regression model include all predictor variables:
 
 ```{r}
 # Build the model
-model1 <- lm(medv ~ ., data = Boston)
+model1 <- lm(medv ~ ., data = Boston) #to put . means correlazione con TUTTE le colonne nel dataset
 summary(model1)
 ```
 
@@ -123,7 +125,7 @@ summary(model1)
 The R function `vif()`, in the `car` package, can be used to detect multicollinearity in a regression model:
 
 ```{r}
-vif(model1)
+vif(model1) #picking the ones>5, they get excluded from the study
 ```
 
 In this case, we can see that the `rad` and `tax` predictors have high VIF values - compare with the results of the correlation analysis above!!

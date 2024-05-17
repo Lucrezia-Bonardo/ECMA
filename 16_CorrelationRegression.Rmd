@@ -30,7 +30,40 @@ data(cats)
 # Solution
 
 ```{r}
+head(cats)
+str(cats)
+plot(cats$Bwt, cats$Hwt)
+plot(Hwt ~ Bwt, data=cats) #to get the ~ you can search lm in help cuz they have it (just copy paste it)
+
+cor(cats$Bwt, cats$Hwt) #coefficiente di correlazione (vicino a 1=correlate)
+cor.test(cats$Bwt, cats$Hwt) #gives t-test too (it matters here cuz p-value<0.5 means it true, they correlated)
+#You can switch the variables in the cor function and nothing changes
 
 
 ```
+
+```{r}
+#to add this chunk you just gotta click the c+ button and choose R
+mod <- lm(Hwt ~ Bwt, data=cats) #it is also ok to write cats$Bwt but inconvenient if you gotta reuse the formula
+summary(mod) #we see in "intercept - estimate std." that for every bwt+1,you get hwtx4
+```
+```{r}
+plot(cats$Bwt, cats$Hwt)
+abline(coef(mod), col="red")
+
+```
+
+```{r}
+par(mfrow=c(2,2)) #this is to tell R we want to see the graphs on to 2 rows and 2 columns
+plot(mod)
+
+#ASSUNTI:
+#correlazioni dei residui - primo grafico (no andamenti strani)
+#normalità dei residui - secondo grafico (distribuzione su una retta)
+#omogeneità della varianza dei residui - terzo grafico (più o meno stessa dispersione per i vari valori di x)
+
+#quarto grafico è per verificare che non ci siano dati particolarmente influenti sull'analisi di regresione) (nuvola di cook, gott see what is inside-outside)
+```
+
+
 
