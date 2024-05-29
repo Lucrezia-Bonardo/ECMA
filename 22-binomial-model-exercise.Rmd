@@ -226,7 +226,8 @@ plot(arrange(tab, Alt))
 
 ```{r}
 library(sjPlot)
-plot_model(fm2, type = "pred")
+plot_model(fm2, type = "pred")#prova type="eff" se non si blocca
+plot_model(fm2, type = "eff", terms c("Alt"))
 ```
 
 
