@@ -226,8 +226,8 @@ plot(arrange(tab, Alt))
 
 ```{r}
 library(sjPlot)
-plot_model(fm2, type = "pred")#prova type="eff" se non si blocca
-plot_model(fm2, type = "eff", terms c("Alt"))
+# plot_model(fm2, type = "pred")#prova type="eff" se non si blocca
+plot_model(fm2, type = "eff", terms = c("Alt"))
 ```
 
 
@@ -238,8 +238,6 @@ plot_model(fm2)
 
 https://sebastiansauer.github.io/convert_logit2prob/
 http://www.shizukalab.com/toolkits/plotting-logistic-regression-in-r
-
-
 
 
 
