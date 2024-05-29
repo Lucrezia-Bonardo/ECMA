@@ -71,7 +71,7 @@ summary(anova.yields)
 ```
 
 ```{r}
-anova(lm(yields ~ soil.type, data=dati.new)
+anova(lm(yields ~ soil.type, data=dati.new))
 ```
 
 ## Graphically check for the assumptions
