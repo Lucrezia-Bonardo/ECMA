@@ -20,7 +20,9 @@ Type *dir()* in the console to list the files in your working directory. You'll 
 
 
 ```{r}
-
+dir("data")
+y <- read.csv("data/swimming_pools.csv")
+str(y)
 ```
 
 # Variable types
@@ -38,9 +40,10 @@ You'll again be working with the *swimming_pools.csv* file. It contains two colu
 
 ```{r}
 # Import swimming_pools.csv correctly: pools
+pools <- read.csv("data/swimming_pools.csv", stringsAsFactors = FALSE)
 
 # Check the structure of pools
-
+str(pools)
 ```
 
 
@@ -66,8 +69,10 @@ Lily and Tom are having an argument because they want to share a hot dog but the
 First, read the file *hotdogs.csv* which contains the data. In this file, the columns are not separated by commas, but by tabulations. Type *?read.csv* to discover how to specify this!
 
 ```{r}
-
-
+dir("data")
+hotdogs<-read.csv("data/hotdogs.csv", sep="\t")
+head(h)
+?read.csv
 ```
 
 Next to calories and sodium, the hotdogs have one more variable: type. This can be one of three things: Beef, Meat or Poultry. As the type is not a unique string for each hotdog, it can be imported as a **factor**.
@@ -77,7 +82,7 @@ The code that selects the observation with the lowest calorie count and stores i
 ```{r}
 # Select the hot dog with the least calories: lily
 lily <- hotdogs[which.min(hotdogs$calories), ]
-
+lily
 
 ```
 
@@ -85,6 +90,7 @@ Do a similar thing for Tom: select the observation with the most sodium and stor
 
 ```{r}
 # Select the observation with the most sodium: tom
+
 
 ```
 
