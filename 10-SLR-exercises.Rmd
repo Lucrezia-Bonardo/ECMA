@@ -24,13 +24,17 @@ abline(coef(lm.result), lwd=2, col="red")
 A previous experiment, however, produced different results. In particular, the slope of the regression coefficient was -1.5. We can do a test to see if the slope we just estimated (-1.158) is statistically different from 1.5. In this case the null hypothesis is that the slope is -1.5, vs. the alternative hypothesis that the slope is more than -1.5.
 
 ```{r}
-t = (-1.1583 - (-1.5))/0.2236
-pt(t, 7, lower.tail = FALSE)
+t = (-1.1583 - (-1.5))/0.2236 #slope 1 (tannin_estimate) - slope 2/ tannin_error given by lm
+pt(t, 7, lower.tail = FALSE) #7=degrees of freedom, lower.tail=F check if it is larger (lower.tail=T check if it is same or less)
+
+?pt
 ```
 
 
 ```{r}
-confint(lm.result)
+confint(lm.result) #confidence intervals (at 95%)
+
+?confint
 ```
 
 

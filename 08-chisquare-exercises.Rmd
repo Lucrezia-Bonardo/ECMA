@@ -15,17 +15,21 @@ library(dplyr)
 Remember that `df = (nrows-1)(ncols-1)`.
 
 ```{r gof-test}
-## chi2 - goodness of fit test
+## chi2 - goodness of fit test with given probabilities
 freq <- c(22, 21, 22, 27, 22, 36)
 probs <- rep(1/6, 6)
 chisq.test(freq, p = probs)
 ```
 
 ```{r independence-test}
-## chi2 - test of independence
+## chi2 - test of independence, the first paragraph is enough
 yesbelt <- c(12813, 647, 359, 42)
 nobelt <- c(65963, 4000, 2642, 303)
 chisq.test(data.frame(yesbelt, nobelt))
+u <- data.frame(yesbelt, nobelt) #create a table where vector name is column name
+u
+yesbelt
+
 names(chisq.test(data.frame(yesbelt, nobelt)))
 data.frame(yesbelt, nobelt)
 rowSums(data.frame(yesbelt, nobelt))
@@ -47,10 +51,13 @@ chisq.test(data.frame(yesbelt, nobelt))
 ```{r homogeneity-test}
 ## chi2 - test of homogeneity
 die.fair <- sample(1:6, 200, p=c(1,1,1,1,1,1)/6, replace = TRUE)
-die.bias <- sample(1:6, 200, p=c(0.5,0.5,1,1,1,2)/6, replace = TRUE)
-res.fair <- table(die.fair)
+die.bias <- sample(1:6, 200, p=c(0.5,0.5,1,1,1,2)/6, replace = TRUE) #these are the vectors
+res.fair <- table(die.fair) #it counts the outcomes and puts them in a table
+res.fair
+die.fair
 res.bias <- table(die.bias)
-rbind(res.fair, res.bias)
+y<-rbind(res.fair, res.bias) #since they shared column names they can be fused in a single table
+y
 chisq.test(rbind(res.fair, res.bias))
 names(chisq.test(rbind(res.fair, res.bias)))
 ```
@@ -82,8 +89,10 @@ chisq.test(data.frame(r1,r2)) -> Xsq
 
 Xsq$observed   # observed counts (same as M)
 Xsq$expected
+Xsq$residuals
 Xsq
 
+?chisq.test
 ```
 
 

@@ -49,5 +49,6 @@ t.test(x,y,
 
 ```{r}
 # non parametric test
-
+?wilcox.test
+wilcox.test(x,y, paired=T, var.equal=T, alternative="two.sided")
 ```

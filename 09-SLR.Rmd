@@ -107,7 +107,7 @@ summary(cars.lm)
 
 ```
 
-In the *Coefficients* section we find the parameter estimates and their respective standard errors in the second and fird columns. But we can also obtain the 95% confidence intervals:
+In the *Coefficients* section we find the parameter estimates and their respective standard errors in the second and third columns. But we can also obtain the 95% confidence intervals:
 
 ```{r coefconfidenceintervals}
 
