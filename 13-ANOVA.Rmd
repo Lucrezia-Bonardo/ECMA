@@ -48,22 +48,22 @@ We can see a plot of the two regression lines:
 ```{r treesdummy-plot}
 # # we split the trees data into
 # # two pieces, with groups determined by the Tall variable:
-# treesTall <- split(trees, trees$Tall)
+ treesTall <- split(trees, trees$Tall)
 # # we add the Fitted values to each
 # # piece via predict
-# treesTall[["yes"]]$Fit <- predict(treesdummy.lm, treesTall[["yes"]])
-# treesTall[["no"]]$Fit <- predict(treesdummy.lm, treesTall[["no"]])
+ treesTall[["yes"]]$Fit <- predict(treesdummy.lm, treesTall[["yes"]])
+ treesTall[["no"]]$Fit <- predict(treesdummy.lm, treesTall[["no"]])
 # # we set up a plot for the variables Volume versus Girth
 # # but we do not
 # # plot anything yet (type = n) because we want to use different symbols for the two groups
-# plot(Volume ~ Girth, data = trees, type = "n")
+ plot(Volume ~ Girth, data = trees, type = "n")
 # # we add points to the plot for the Tall = yes trees and use an open circle for a plot character
 # # (pch = 1), followed by points for the Tall = no trees with a triangle character (pch = 2).
-# points(Volume ~ Girth, data = treesTall[["yes"]], pch = 1)
-# points(Volume ~ Girth, data = treesTall[["no"]], pch = 2)
+ points(Volume ~ Girth, data = treesTall[["yes"]], pch = 1)
+ points(Volume ~ Girth, data = treesTall[["no"]], pch = 2)
 # # we add regression lines to the plot, one for each group
-# lines(Fit ~ Girth, data = treesTall[["yes"]])
-# lines(Fit ~ Girth, data = treesTall[["no"]])
+ lines(Fit ~ Girth, data = treesTall[["yes"]])
+ lines(Fit ~ Girth, data = treesTall[["no"]])
 
 plot(Volume ~ Girth, data = trees)
 abline(a = -34, b = 4.69, col="red") # alberi bassi
