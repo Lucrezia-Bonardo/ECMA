@@ -84,9 +84,9 @@ mod <- lm(Volume ~ Girth + Height, data=trees)
 summary(mod)
 # the mean increase in volume when there is a one-unit increase in girth is 4.7
 
- Volume.tr <- trees$Volume^0.30
- mod.tr <- lm(Volume.tr ~ Girth + Height, data=trees)
- summary(mod.tr)
+# Volume.tr <- trees$Volume^0.30
+ #mod.tr <- lm(Volume.tr ~ Girth + Height, data=trees)
+ #summary(mod.tr)
 
 
 ```

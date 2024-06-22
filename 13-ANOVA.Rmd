@@ -124,8 +124,7 @@ summary(aov(scores ~ graders, data=scores.graders))
 # oppure
 anova.prova <- aov(scores ~ graders, data=scores.graders)
 summary(anova.prova)
-                   
-
+              
 ```
 
 
